@@ -1,6 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<form action="/api/posts" class="create-post" method="POST">
+    <div>
+        <label for="content">Content</label>
+        <input type="text" name="content">
+    </div>
+    <div>
+        <label for="username">username</label>
+        <input type="text" name="username">
+    </div>
+    <div>
+        <input type="number" name="thread_id" value="{{thread.id}}" readonly style="visibility: hidden;">
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+
 <div class="thread-container">
     <div class="flex">
         <p>{{ thread.id }}</p>
