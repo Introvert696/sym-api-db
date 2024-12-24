@@ -31,13 +31,13 @@ class DBController extends AbstractController
         $this->sql = "";
         return $data;
     }
-    public function all(string $nameTable):array {
+    public function all(string $nameTable):static {
         $this->sql = "SELECT * FROM ".$nameTable;
-        return $this->query();
+        return $this;
     }
-    public function find(string $nameTable, string $id): array {
+    public function find(string $nameTable, string $id): static {
         $this->sql = "SELECT * FROM ".$nameTable." WHERE id=".$id;
-        return $this->query();;
+        return $this;
     }
     public function store(string $targetTable,array $data): array {
         $responseData=[];
@@ -56,6 +56,7 @@ class DBController extends AbstractController
          }
          $this->sql = rtrim($this->sql,',');
          $this->sql .= ")";
+        //  dd($this->sql);
         try{
             $response = $this->query();
             $responseData["status"] = 200;
@@ -68,8 +69,16 @@ class DBController extends AbstractController
             return $responseData;
             
         }
-        
-       
+          
     }
 }
+    public function limit( int $bias,int $count): static{
+        $this->sql .= " LIMIT ".$bias.", ".$count. ";";
+        // dd($this->sql);
+        return $this;
+    }
+    public function where($column, $type, $value): static{
+        $this->sql .= " WHERE ".$column." ".$type." ".$value;
+        return $this;
+    }
 }

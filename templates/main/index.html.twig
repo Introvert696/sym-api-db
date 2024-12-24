@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Hello MainController!
+{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+<form action="/api/thread" method="post" class="create-thread-form">
+    <h2>Создание треда</h2>
+    <div>
+        <label for="content">Content</label>
+        <input type="text" name="content">
+    </div>
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username">
+    </div>
+    <input type="submit" value="submit">
+</form>
+
+{% for thread in threads %}
+<a href="/thread/{{thread.id}}">
+    <div class="thread-container">
+        <div class="flex">
+            <p>{{ thread.id }}</p>
+            <p>----</p>
+            <p>{{ thread.created_ad }}</p>
+        </div>
+        <div>
+            <p>{{ thread.content }}</p>
+        </div>
+    </div>
+</a>
+{% for post in posts %}
+{% if post.thread_id == thread.id %}
+<div class="post-controller">
+    <div class="flex">
+        <p>{{ post.id }}</p>
+        <p>----</p>
+        <p>{{ post.created_ad }}</p>
+    </div>
+    <div>
+        <p>{{ post.content }}</p>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+{% if threads ==[] %}
+<h1>Треды закончилист</h1>
+{% endif %}
+<div class="nav-threads">
+    {% if page-1 != 0 %}
+    <a href="/?page={{page-1}}">previos</a>
+    {% endif %}
+    {% if threads != [] %}
+    <a href="/?page={{page+1}}">next</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}

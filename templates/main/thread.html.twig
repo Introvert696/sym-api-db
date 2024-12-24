@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="thread-container">
+    <div class="flex">
+        <p>{{ thread.id }}</p>
+        <p>----</p>
+        <p>{{ thread.created_ad }}</p>
+    </div>
+    <div>
+        <p>{{ thread.content }}</p>
+    </div>
+</div>
+{% for post in posts %}
+<div class="post-controller">
+    <div class="flex">
+        <p>{{ post.id }}</p>
+        <p>----</p>
+        <p>{{ post.created_ad }}</p>
+    </div>
+    <div>
+        <p>{{ post.content }}</p>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

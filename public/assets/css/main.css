@@ -1,0 +1,36 @@
+.flex{
+    display: flex;
+}
+.example-wrapper {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 95%;
+    font: 18px / 1.5 sans-serif;
+}
+.example-wrapper code {
+    background: #F5F5F5;
+    padding: 2px 6px;
+}
+.thread-container {
+    width: 80%;
+    margin: auto;
+    border: 1px solid rgb(167, 115, 115);
+    box-sizing: border-box;
+    padding-left: 10%;
+    margin-top: 2%;
+}
+.post-controller {
+    width: 60%;
+    margin: auto;
+    border: 1px solid red;
+    margin-top: 2%;
+    box-sizing: border-box;
+    padding-left: 5%;
+}
+.create-thread-form {
+    width: 25%;
+    margin: auto;
+    height: 300px;
+    border: 1px solid red;
+
+}

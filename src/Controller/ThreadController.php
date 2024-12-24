@@ -28,9 +28,11 @@ class ThreadController extends AbstractController
    public function store(Request $request, DBController $dbController):JsonResponse {
     $reqdata = $request->request->all();
     $data=[];
+   
     foreach($reqdata as $key => $value) {
         $data[$key] = $value == "" ? null : $value ;
     }
+    
     return $this->json($dbController->store('thread',$data));
    }
 }
