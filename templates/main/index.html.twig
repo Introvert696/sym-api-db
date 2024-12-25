@@ -1,95 +1,128 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Hello MainController!
+	Hello MainController!
 {% endblock %}
 
 {% block body %}
-<div class="container w-25">
-    <h2>Создание нового треда</h2>
-    <form action="/api/thread" method="post">
-        <div class="mb-3">
-            <label for="content" class="form-label">
-                Content
-            </label>
-            <input type="text" name="content" class="form-control" id="content" aria-describedby="content">
-        </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">
-                Username
-            </label>
-            <input type="text" class="form-control" id="username" name="username">
-        </div>
-        <button type="submit" class="btn btn-primary">
-            Submit
-        </button>
-    </form>
-</div>
+	<div
+		class="container w-25">
+		<h2>
+			Создание нового треда
+		</h2>
+		<form
+			action="/api/thread"
+			method="post">
+			<div
+				class="mb-3">
+				<label
+					for="content"
+					class="form-label">
+					Content
+				</label>
+				<input
+					type="text"
+					name="content"
+					class="form-control"
+					id="content"
+					aria-describedby="content">
+			</div>
+			<div
+				class="mb-3">
+				<label
+					for="username"
+					class="form-label">
+					Username
+				</label>
+				<input
+					type="text"
+					class="form-control"
+					id="username"
+					name="username">
+			</div>
+			<button
+				type="submit"
+				class="btn btn-primary">
+				Submit
+			</button>
+		</form>
+	</div>
 
 
+	{% for thread in threads %}
+		<a
+			href="/thread/{{thread.id}}">
+			<div
+				class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+				<div
+					class="flex">
+					<p>
+						{{ thread.id }}
+					</p>
+					<p>
+						----
+					</p>
+					<p>
+						{{ thread.created_ad }}
+					</p>
+				</div>
+				<div>
+					<p>
+						{{ thread.content }}
+					</p>
+				</div>
+			</div>
+		</a>
+		{# Need a fix  #}
+		{% set i=0 %}
+		{% for post in posts %}
+			{% if (post.thread_id == thread.id) and (i < 3) %}
+				<div
+					class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+					<div
+						class="flex">
+						<p>
+							{{ post.id }}
+						</p>
+						<p>
+							----
+						</p>
+						<p>
+							{{ post.created_ad }}
+						</p>
+					</div>
+					<div>
+						<p>
+							{{ post.content }}
+						</p>
+					</div>
+				</div>
+				{% set i = i+1 %}
+			{% endif %}
+		{% endfor %}
 
-{% for thread in threads %}
-<a href="/thread/{{thread.id}}">
-    <div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
-        <div class="flex">
-            <p>
-                {{ thread.id }}
-            </p>
-            <p>
-                ----
-            </p>
-            <p>
-                {{ thread.created_ad }}
-            </p>
-        </div>
-        <div>
-            <p>
-                {{ thread.content }}
-            </p>
-        </div>
-    </div>
-</a>
-{% for i in 0..3 %}
-{% if posts[i].thread_id == thread.id %}
-<div class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
-    <div class="flex">
-        <p>
-            {{ posts[i].id }}
-        </p>
-        <p>
-            ----
-        </p>
-        <p>
-            {{ posts[i].created_ad }}
-        </p>
-    </div>
-    <div>
-        <p>
-            {{ posts[i].content }}
-        </p>
-    </div>
-</div>
-{% endif %}
-{% endfor %}
 
-{% endfor %}
-{% if threads ==[] %}
-<h1>
-    Треды закончилист
-</h1>
-{% endif %}
-<div class="nav-threads">
-    {% if page-1 != 0 %}
-    <a href="/?page={{page-1}}">
-        previos
-    </a>
-    {% endif %}
-    {% if threads != [] %}
-    <a href="/?page={{page+1}}">
-        next
-    </a>
-    {% endif %}
-</div>
+	{% endfor %}
+	{% if threads ==[] %}
+		<h1>
+			Треды закончилист
+		</h1>
+	{% endif %}
+	<div
+		class="nav-threads">
+		{% if page-1 != 0 %}
+			<a
+				href="/?page={{page-1}}">
+				previos
+			</a>
+		{% endif %}
+		{% if threads != [] %}
+			<a
+				href="/?page={{page+1}}">
+				next
+			</a>
+		{% endif %}
+	</div>
 
 
 {% endblock %}
