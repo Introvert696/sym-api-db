@@ -15,11 +15,6 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(DBController $dbController, Request $request): Response
     {
-        // 1 - 0
-        // 2 - 3
-        // 3 - 6
-        // 4 - 9
-        // 5 - 12
         try {
             $this->page = $request->query->all()["page"];
         } catch (\Exception $e) {

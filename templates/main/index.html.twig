@@ -5,28 +5,32 @@ Hello MainController!
 {% endblock %}
 
 {% block body %}
-<form action="/api/thread" method="post" class="create-thread-form">
-    <h2>
-        Создание треда
-    </h2>
-    <div>
-        <label for="content">
-            Content
-        </label>
-        <input type="text" name="content">
-    </div>
-    <div>
-        <label for="username">
-            Username
-        </label>
-        <input type="text" name="username">
-    </div>
-    <input type="submit" value="submit">
-</form>
+<div class="container w-25">
+    <h2>Создание нового треда</h2>
+    <form action="/api/thread" method="post">
+        <div class="mb-3">
+            <label for="content" class="form-label">
+                Content
+            </label>
+            <input type="text" name="content" class="form-control" id="content" aria-describedby="content">
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">
+                Username
+            </label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
+    </form>
+</div>
+
+
 
 {% for thread in threads %}
 <a href="/thread/{{thread.id}}">
-    <div class="thread-container">
+    <div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
         <div class="flex">
             <p>
                 {{ thread.id }}
@@ -47,7 +51,7 @@ Hello MainController!
 </a>
 {% for i in 0..3 %}
 {% if posts[i].thread_id == thread.id %}
-<div class="post-controller">
+<div class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
     <div class="flex">
         <p>
             {{ posts[i].id }}

@@ -1,23 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<form action="/api/posts" class="create-post" method="POST">
-    <div>
-        <label for="content">Content</label>
-        <input type="text" name="content">
-    </div>
-    <div>
-        <label for="username">username</label>
-        <input type="text" name="username">
-    </div>
-    <div>
+
+<div class="container w-25">
+    <h2>Создание нового треда</h2>
+    <form action="/api/posts" method="post">
+        <div class="mb-3">
+            <label for="content" class="form-label">
+                Content
+            </label>
+            <input type="text" name="content" class="form-control" id="content" aria-describedby="content">
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">
+                Username
+            </label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
         <input type="number" name="thread_id" value="{{thread.id}}" readonly style="visibility: hidden;">
-    </div>
-    <button type="submit">Submit</button>
-</form>
+        <button type="submit" class="btn btn-primary">
+            Отправить
+        </button>
+    </form>
+</div>
 
-
-<div class="thread-container">
+<div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
     <div class="flex">
         <p>{{ thread.id }}</p>
         <p>----</p>
@@ -28,7 +35,7 @@
     </div>
 </div>
 {% for post in posts %}
-<div class="post-controller">
+<div class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
     <div class="flex">
         <p>{{ post.id }}</p>
         <p>----</p>
