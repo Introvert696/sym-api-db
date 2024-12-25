@@ -12,6 +12,19 @@ class MainController extends AbstractController
     private int $page = 0;
     private $limit = 3;
     private $offset = 0;
+
+    public function __construct()
+    {
+        // 
+    }
+
+    #[Route(path: "/seed", name: "seed.db", methods: ["GET"])]
+    public function seeder(DBController $dbController, FakerController $faker)
+    {
+        $faker->createThread()->createPosts($dbController)->seed($dbController);
+        echo "Seed it a complete";
+    }
+
     #[Route('/', name: 'app_main')]
     public function index(DBController $dbController, Request $request): Response
     {
