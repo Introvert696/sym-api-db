@@ -6,13 +6,14 @@
 
 {% block body %}
 	<div
-		class="container w-25">
+		class="container w-25 bg-secondary text-light p-5 h-30 mt-5 mb-5 card">
 		<h2>
 			Создание нового треда
 		</h2>
 		<form
-			action="/api/thread"
-			method="post">
+
+			id="threadform"
+			onsubmit="return false;">
 			<div
 				class="mb-3">
 				<label
@@ -42,83 +43,101 @@
 			</div>
 			<button
 				type="submit"
-				class="btn btn-primary">
+				class="btn btn-primary"
+				value="submitthread">
 				Submit
 			</button>
 		</form>
 	</div>
 
-
-	{% for thread in threads %}
-		<a
-			href="/thread/{{thread.id}}">
-			<div
-				class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+	<div>
+		{% for thread in threads %}
+			<a
+				href="/thread/{{thread.id}}">
 				<div
-					class="flex">
-					<p>
-						{{ thread.id }}
-					</p>
-					<p>
-						----
-					</p>
-					<p>
-						{{ thread.created_ad }}
-					</p>
-				</div>
-				<div>
-					<p>
-						{{ thread.content }}
-					</p>
-				</div>
-			</div>
-		</a>
-		{# Need a fix  #}
-		{% set i=0 %}
-		{% for post in posts %}
-			{% if (post.thread_id == thread.id) and (i < 3) %}
-				<div
-					class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+					class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
 					<div
 						class="flex">
 						<p>
-							{{ post.id }}
+							{{ thread.id }}
 						</p>
 						<p>
 							----
 						</p>
 						<p>
-							{{ post.created_ad }}
+							{{ thread.username }}
+						</p>
+						<p>
+							----
+						</p>
+						<p>
+							{{ thread.created_ad }}
 						</p>
 					</div>
 					<div>
 						<p>
-							{{ post.content }}
+							{{ thread.content }}
 						</p>
 					</div>
 				</div>
-				{% set i = i+1 %}
-			{% endif %}
+			</a>
+			{# Need a fix #}
+			{% set i=0 %}
+			{% for post in posts %}
+				{% if (post.thread_id == thread.id) and (i < 3) %}
+					<div
+						class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+						<div
+							class="flex">
+							<p>
+								{{ post.id }}
+							</p>
+							<p>
+								----
+							</p>
+							<p>
+								{{ post.username }}
+							</p>
+							<p>
+								----
+							</p>
+							<p>
+								{{ post.created_ad }}
+							</p>
+						</div>
+						<div>
+							<p>
+								{{ post.content }}
+							</p>
+						</div>
+					</div>
+					{% set i = i+1 %}
+				{% endif %}
+			{% endfor %}
+
+
 		{% endfor %}
+		{% if threads ==[] %}
+			<h1>
+				Треды закончилист
+			</h1>
+		{% endif %}
+	</div>
 
-
-	{% endfor %}
-	{% if threads ==[] %}
-		<h1>
-			Треды закончилист
-		</h1>
-	{% endif %}
 	<div
-		class="nav-threads">
+		class="container nav-threads py-5 d-flex justify-content-between"
+		style="width: 30%;">
 		{% if page-1 != 0 %}
 			<a
-				href="/?page={{page-1}}">
+				href="/?page={{page-1}}"
+				class="btn btn-secondary">
 				previos
 			</a>
 		{% endif %}
 		{% if threads != [] %}
 			<a
-				href="/?page={{page+1}}">
+				href="/?page={{page+1}}"
+				class="btn btn-secondary">
 				next
 			</a>
 		{% endif %}

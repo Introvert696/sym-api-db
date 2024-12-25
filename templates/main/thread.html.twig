@@ -2,49 +2,108 @@
 
 {% block body %}
 
-<div class="container w-25">
-    <h2>Создание нового треда</h2>
-    <form action="/api/posts" method="post">
-        <div class="mb-3">
-            <label for="content" class="form-label">
-                Content
-            </label>
-            <input type="text" name="content" class="form-control" id="content" aria-describedby="content">
-        </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">
-                Username
-            </label>
-            <input type="text" class="form-control" id="username" name="username">
-        </div>
-        <input type="number" name="thread_id" value="{{thread.id}}" readonly style="visibility: hidden;">
-        <button type="submit" class="btn btn-primary">
-            Отправить
-        </button>
-    </form>
-</div>
+	<div
+		class="container w-25 bg-secondary text-light p-5 h-30 mt-5 mb-5 card">
+		<h2>
+			Создание нового поста
+		</h2>
+		<form
+			id="postform"
+			onsubmit="return false;">
+			<div
+				class="mb-3">
+				<label
+					for="content"
+					class="form-label">
+					Content
+				</label>
+				<input
+					type="text"
+					name="content"
+					class="form-control"
+					id="content"
+					aria-describedby="content">
+			</div>
+			<div
+				class="mb-3">
+				<label
+					for="username"
+					class="form-label">
+					Username
+				</label>
+				<input
+					type="text"
+					class="form-control"
+					id="username"
+					name="username">
+			</div>
+			<input
+				type="number"
+				name="thread_id"
+				value="{{thread.id}}" readonly
+				style="visibility: hidden;">
+			<button
+				type="submit"
+				class="btn btn-primary"
+				value="submitpost">
+				Отправить
+			</button>
+		</form>
+	</div>
 
-<div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
-    <div class="flex">
-        <p>{{ thread.id }}</p>
-        <p>----</p>
-        <p>{{ thread.created_ad }}</p>
-    </div>
-    <div>
-        <p>{{ thread.content }}</p>
-    </div>
-</div>
-{% for post in posts %}
-<div class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
-    <div class="flex">
-        <p>{{ post.id }}</p>
-        <p>----</p>
-        <p>{{ post.created_ad }}</p>
-    </div>
-    <div>
-        <p>{{ post.content }}</p>
-    </div>
-</div>
-{% endfor %}
+	<div
+		class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+		<div
+			class="flex">
+			<p>
+				{{ thread.id }}
+			</p>
+			<p>
+				----
+			</p>
+			<p>
+				{{ thread.username }}
+			</p>
+			<p>
+				----
+			</p>
+			<p>
+				{{ thread.created_ad }}
+			</p>
+		</div>
+		<div>
+			<p>
+				{{ thread.content }}
+			</p>
+		</div>
+	</div>
+	{% for post in posts %}
+		<div
+			class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+			<div
+				class="flex">
+				<p>
+					{{ post.id }}
+				</p>
+				<p>
+					----
+				</p>
+				<p>
+					{{ post.username }}
+				</p>
+				<p>
+					----
+				</p>
+				<p>
+					{{ post.created_ad }}
+				</p>
+			</div>
+			<div>
+				<p>
+					{{ post.content }}
+				</p>
+			</div>
+		</div>
+	{% endfor %}
 
 {% endblock %}
