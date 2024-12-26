@@ -3,5 +3,6 @@
     "inlineChat.lineNaturalLanguageHint": true,
     "inlineChat.mode": "live",
     "chat.commandCenter.enabled": false,
-    "chat.detectParticipant.enabled": false
+    "chat.detectParticipant.enabled": false,
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }

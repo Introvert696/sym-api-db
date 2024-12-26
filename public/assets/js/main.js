@@ -1,11 +1,10 @@
 try {
-  // thread
+  // thread vars
   const threadForm = document.getElementById("threadform");
   const threadSubmitter = document.querySelector("button[value=submitthread]");
 
   // event create a thread
   threadSubmitter.addEventListener("click", (e) => {
-    console.log("11;");
     const threadFormData = new FormData(threadForm, threadSubmitter);
     sendThread(threadFormData);
   });
@@ -28,26 +27,19 @@ function sendThread(formData) {
 }
 
 try {
-  // posts
+  // posts vars
   const postForm = document.getElementById("postform");
   const postSubmitter = document.querySelector("#submitpost");
-  console.log(postSubmitter);
-  // event post
-  postSubmitter.addEventListener("click", (e) => {
-    // console.log(postForm);
-    const postFormData = new FormData(postForm, postSubmitter);
-    // console.log(postFormData);
-    console.log("posts;");
-    for (const [key, value] of postFormData) {
-      console.log(key);
-    }
 
+  // event create a post
+  postSubmitter.addEventListener("click", (e) => {
+    const postFormData = new FormData(postForm, postSubmitter);
     sendPost(postFormData);
   });
 } catch (error) {
   console.log(error);
 }
-// function send posts
+// send posts
 async function sendPost(formData) {
   await fetch("/api/posts", {
     method: "POST",
@@ -60,7 +52,7 @@ async function sendPost(formData) {
       console.log(resp);
     });
 }
-// function for get threads
+// get threads
 async function getThreads(page, limit = 3) {
   page = Number(page);
   limit = Number.isInteger(Number(limit)) == true ? Number(limit) : 3;
@@ -75,22 +67,20 @@ async function getThreads(page, limit = 3) {
     console.log(error);
   }
 }
-// function for get posts
+// get posts
 async function getPostsInThread(threadId) {
-  // console.log(threadId);
   try {
     const resp = await fetch(`/api/posts?thread_id=${threadId}`, {
       method: "GET",
     });
     const data = await resp.json();
-    // console.log(data);
     return data;
   } catch (error) {
     console.log(error);
   }
 }
 
-// function strip query search
+// strip query vars
 function stripQuerySearch(query) {
   query = query.replace("?", "");
   let params = new Array();
@@ -101,17 +91,13 @@ function stripQuerySearch(query) {
   });
   return params;
 }
-
-console.log(window.location.pathname);
-
-// create output thread
+// output thread
 async function outputThread(data) {
   const threadbody = document.querySelector("#thread-list");
   let htmlthread = "";
   let postarr = new Array();
   // loop for get one thread
   for (d in data) {
-    // console.log(data[d]);
     htmlthread += `
       <a href="/thread/${data[d].id}">
         <div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
@@ -125,9 +111,9 @@ async function outputThread(data) {
         </div>
       </a>
    `;
+    // get posts under current thread
     try {
       let posts = await getPostsInThread(data[d].id);
-      // console.log(posts);
       for (p in posts) {
         if (p == 3) {
           break;
@@ -150,15 +136,12 @@ async function outputThread(data) {
   }
   threadbody.innerHTML = htmlthread;
 }
-// create output posts under thread
-
 // simple router
 if (window.location.pathname == "/") {
   if (window.location.search == "") {
-    getThreads(1, 4);
+    getThreads(1, 3);
   } else {
     let strip = stripQuerySearch(window.location.search);
     getThreads(strip["page"], strip["limit"]);
   }
 }
-// -----------------------------------------------------
