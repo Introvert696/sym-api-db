@@ -48,8 +48,8 @@ try {
   console.log(error);
 }
 // function send posts
-function sendPost(formData) {
-  fetch("/api/posts", {
+async function sendPost(formData) {
+  await fetch("/api/posts", {
     method: "POST",
     body: formData,
   })
@@ -61,30 +61,33 @@ function sendPost(formData) {
     });
 }
 // function for get threads
-function getThreads(page, limit = 3) {
+async function getThreads(page, limit = 3) {
   page = Number(page);
   limit = Number.isInteger(Number(limit)) == true ? Number(limit) : 3;
-  // console.log(Number.isInteger(Number(limit)));
-  fetch("/api/thread?page=" + page + "&limit=" + limit, {
-    method: "GET",
-  }).then((resp) => {
-    const data = resp.json();
-    data.then((el) => {
-      outputThread(el);
+
+  try {
+    const resp = await fetch(`/api/thread?page=${page}&limit=${limit}`, {
+      method: "GET",
     });
-  });
+    const data = await resp.json();
+    outputThread(data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 // function for get posts
-function getPostsInThread(threadId) {
+async function getPostsInThread(threadId) {
   // console.log(threadId);
-  fetch("/api/posts?thread_id=" + threadId, {
-    method: "GET",
-  }).then((resp) => {
-    const data = resp.json();
-    data.then((el) => {
-      console.log(el);
+  try {
+    const resp = await fetch(`/api/posts?thread_id=${threadId}`, {
+      method: "GET",
     });
-  });
+    const data = await resp.json();
+    // console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // function strip query search
@@ -101,6 +104,54 @@ function stripQuerySearch(query) {
 
 console.log(window.location.pathname);
 
+// create output thread
+async function outputThread(data) {
+  const threadbody = document.querySelector("#thread-list");
+  let htmlthread = "";
+  let postarr = new Array();
+  // loop for get one thread
+  for (d in data) {
+    // console.log(data[d]);
+    htmlthread += `
+      <a href="/thread/${data[d].id}">
+        <div class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+          <div class="flex"><p> ${data[d].id} </p>
+            <p>  ---- </p>
+            <p>  ${data[d].username == null ? "" : data[d].username} </p>
+            <p>  ----  </p>
+            <p>  ${data[d].created_ad} </p>
+          </div>
+          <div>  <p>  ${data[d].content} </p> </div>
+        </div>
+      </a>
+   `;
+    try {
+      let posts = await getPostsInThread(data[d].id);
+      // console.log(posts);
+      for (p in posts) {
+        if (p == 3) {
+          break;
+        }
+        htmlthread += `
+                 <div class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+                <div class="flex">
+                  <p>${posts[p].id}</p>
+                  <p>----</p>
+                  <p>${posts[p].username}</p>
+                  <p>----</p>
+                  <p>${posts[p].created_ad}</p>
+                </div>
+                <div><p>${posts[p].content}</p></div>
+              </div>`;
+      }
+    } catch {
+      console.log("error  ");
+    }
+  }
+  threadbody.innerHTML = htmlthread;
+}
+// create output posts under thread
+
 // simple router
 if (window.location.pathname == "/") {
   if (window.location.search == "") {
@@ -110,53 +161,4 @@ if (window.location.pathname == "/") {
     getThreads(strip["page"], strip["limit"]);
   }
 }
-
-// create output thread
-function outputThread(data) {
-  const threadbody = document.querySelector("#thread-list");
-  let htmlthread = "";
-  // loop for get one thread
-  data.forEach((el) => {
-    // create html element for thread
-    htmlthread += `
-    <a
-						href="/thread/${el.id}">
-						<div
-							class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
-							<div
-								class="flex">
-								<p>
-									${el.id}
-								</p>
-								<p>
-									----
-								</p>
-								<p>
-									${el.username == null ? "" : el.username}
-								</p>
-								<p>
-									----
-								</p>
-								<p>
-									${el.created_ad}
-								</p>
-							</div>
-							<div>
-								<p>
-									${el.content}
-								</p>
-							</div>
-						</div>
-					</a>
-    `;
-    // reqeust for get posts this thread
-    // thread id  = el.id
-    let posts = getPostsInThread(el.id);
-    console.log(posts);
-  });
-  // console.log(htmlthread);
-  threadbody.innerHTML = htmlthread;
-}
-// create output posts under thread
-
-// create a async methods all
+// -----------------------------------------------------
