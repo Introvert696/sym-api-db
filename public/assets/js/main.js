@@ -34,9 +34,9 @@ try {
 
   // event post
   postSubmitter.addEventListener("click", (e) => {
-    console.log(postForm);
+    // console.log(postForm);
     const postFormData = new FormData(postForm, postSubmitter);
-    console.log(postFormData);
+    // console.log(postFormData);
     for (const [key, value] of postFormData) {
       console.log(key);
     }
@@ -63,11 +63,15 @@ function sendPost(formData) {
 function getThreads(page, limit = 3) {
   page = Number(page);
   limit = Number.isInteger(Number(limit)) == true ? Number(limit) : 3;
-  console.log(Number.isInteger(Number(limit)));
+  // console.log(Number.isInteger(Number(limit)));
   fetch("/api/thread?page=" + page + "&limit=" + limit, {
     method: "GET",
   }).then((resp) => {
-    console.log(resp.json());
+    const data = resp.json();
+    let dataArr = new Array();
+    data.then((el) => {
+      outputThread(el);
+    });
   });
 }
 // function for get posts
@@ -98,5 +102,47 @@ if (window.location.pathname == "/") {
 }
 
 // create output thread
-
+function outputThread(data) {
+  const threadbody = document.querySelector("#thread-list");
+  let htmlthread = "";
+  // loop for get one thread
+  data.forEach((el) => {
+    // create html element for thread
+    htmlthread += `
+    <a
+						href="/thread/${el.id}">
+						<div
+							class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+							<div
+								class="flex">
+								<p>
+									${el.id}
+								</p>
+								<p>
+									----
+								</p>
+								<p>
+									${el.username == null ? "" : el.username}
+								</p>
+								<p>
+									----
+								</p>
+								<p>
+									${el.created_ad}
+								</p>
+							</div>
+							<div>
+								<p>
+									${el.content}
+								</p>
+							</div>
+						</div>
+					</a>
+    `;
+    // reqeust for get posts this thread
+    // thread id  = el.id
+  });
+  // console.log(htmlthread);
+  threadbody.innerHTML = htmlthread;
+}
 // create output posts under thread

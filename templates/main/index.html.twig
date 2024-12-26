@@ -49,81 +49,85 @@
 			</button>
 		</form>
 	</div>
-
-	<div>
-		{% for thread in threads %}
-			<a
-				href="/thread/{{thread.id}}">
-				<div
-					class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
-					<div
-						class="flex">
-						<p>
-							{{ thread.id }}
-						</p>
-						<p>
-							----
-						</p>
-						<p>
-							{{ thread.username }}
-						</p>
-						<p>
-							----
-						</p>
-						<p>
-							{{ thread.created_ad }}
-						</p>
-					</div>
-					<div>
-						<p>
-							{{ thread.content }}
-						</p>
-					</div>
-				</div>
-			</a>
-			{# Need a fix #}
-			{% set i=0 %}
-			{% for post in posts %}
-				{% if (post.thread_id == thread.id) and (i < 3) %}
-					<div
-						class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+	<div
+		id="thread-list"></div>
+	<!-- 
+			{# output thread #}
+			<div>
+				{% for thread in threads %}
+					<a
+						href="/thread/{{thread.id}}">
 						<div
-							class="flex">
-							<p>
-								{{ post.id }}
-							</p>
-							<p>
-								----
-							</p>
-							<p>
-								{{ post.username }}
-							</p>
-							<p>
-								----
-							</p>
-							<p>
-								{{ post.created_ad }}
-							</p>
+							class="card w-75 px-5 mt-2 m-auto border-primary bg-secondary text-light">
+							<div
+								class="flex">
+								<p>
+									{{ thread.id }}
+								</p>
+								<p>
+									----
+								</p>
+								<p>
+									{{ thread.username }}
+								</p>
+								<p>
+									----
+								</p>
+								<p>
+									{{ thread.created_ad }}
+								</p>
+							</div>
+							<div>
+								<p>
+									{{ thread.content }}
+								</p>
+							</div>
 						</div>
-						<div>
-							<p>
-								{{ post.content }}
-							</p>
-						</div>
-					</div>
-					{% set i = i+1 %}
+					</a>
+		
+					{% set i=0 %}
+					{# output thread posts #}
+					{% for post in posts %}
+						{% if (post.thread_id == thread.id) and (i < 3) %}
+							<div
+								class="card w-75 px-5 m-auto border border-top-0 mt-2 border-primary-subtle bg-secondary-subtle">
+								<div
+									class="flex">
+									<p>
+										{{ post.id }}
+									</p>
+									<p>
+										----
+									</p>
+									<p>
+										{{ post.username }}
+									</p>
+									<p>
+										----
+									</p>
+									<p>
+										{{ post.created_ad }}
+									</p>
+								</div>
+								<div>
+									<p>
+										{{ post.content }}
+									</p>
+								</div>
+							</div>
+							{% set i = i+1 %}
+						{% endif %}
+					{% endfor %}
+		
+		
+				{% endfor %}
+				{% if threads ==[] %}
+					<h1>
+						Треды закончилист
+					</h1>
 				{% endif %}
-			{% endfor %}
-
-
-		{% endfor %}
-		{% if threads ==[] %}
-			<h1>
-				Треды закончилист
-			</h1>
-		{% endif %}
-	</div>
-
+			</div>
+		 -->
 	<div
 		class="container nav-threads py-5 d-flex justify-content-between"
 		style="width: 30%;">
