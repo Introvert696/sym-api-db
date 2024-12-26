@@ -13,14 +13,28 @@ class ThreadController extends AbstractController
                 DBController $dbController,
         ) {
         }
-        // we grab GET request values t.e. page
-        // if page not exist, response all thread
-        // if exist, reponse paginated thread
+
         #[Route('/api/thread', name: 'thread', methods: ['GET'])]
-        public function index(DBController $dbController): JsonResponse
+        public function index(DBController $dbController, Request $request): JsonResponse
         {
-                // work with it function
-                $data = $dbController->all('thread')->query();
+                //get 'GET' params
+                $params = $request->query->all();
+                // default limit count thread
+                $limit = 3;
+                if (isset($params['page'])) {
+                        // if set param limit, update limit
+                        if (isset($params['limit'])) {
+                                $limit = $params['limit'];
+                        }
+                        $page = $params['page'];
+                        $offset = ($page - 1) * $limit;
+                        // get all thread with limit and page
+                        $data = $dbController->all('thread')->orderByNew('created_ad', true)->limit($offset, $limit)->query();
+                }
+                // if param 'page' not use
+                else {
+                        $data = $dbController->all('thread')->query();
+                }
                 return $this->json($data);
         }
         #[Route('/api/thread/{id}', name: 'thread.show', methods: ['GET'])]
@@ -38,7 +52,6 @@ class ThreadController extends AbstractController
                 foreach ($reqdata as $key => $value) {
                         $data[$key] = $value == "" ? null : $value;
                 }
-
                 return $this->json($dbController->store('thread', $data));
         }
 }

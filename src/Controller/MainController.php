@@ -15,7 +15,6 @@ class MainController extends AbstractController
 
     public function __construct()
     {
-        // 
     }
 
     #[Route(path: "/seed", name: "seed.db", methods: ["GET"])]
@@ -34,7 +33,6 @@ class MainController extends AbstractController
             $this->page = 1;
         }
         $this->offset = ($this->page - 1) * $this->limit;
-        // dd($this->offset);
         $threads = $dbController->all('thread')->orderByNew('created_ad', true)->limit($this->offset, $this->limit)->query();
 
         $posts = $dbController->all('posts')->orderByNew('created_ad', true)->query();

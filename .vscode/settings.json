@@ -1,0 +1,7 @@
+{
+    "inlineChat.holdToSpeech": true,
+    "inlineChat.lineNaturalLanguageHint": true,
+    "inlineChat.mode": "live",
+    "chat.commandCenter.enabled": false,
+    "chat.detectParticipant.enabled": false
+}

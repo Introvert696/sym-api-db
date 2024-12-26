@@ -60,8 +60,11 @@ function sendPost(formData) {
     });
 }
 // function for get threads
-function getThreads(page) {
-  fetch("/api/thread?page=" + page, {
+function getThreads(page, limit = 3) {
+  page = Number(page);
+  limit = Number.isInteger(Number(limit)) == true ? Number(limit) : 3;
+  console.log(Number.isInteger(Number(limit)));
+  fetch("/api/thread?page=" + page + "&limit=" + limit, {
     method: "GET",
   }).then((resp) => {
     console.log(resp.json());
@@ -69,4 +72,31 @@ function getThreads(page) {
 }
 // function for get posts
 function getPosts() {}
-getThreads(1);
+
+// function strip query search
+function stripQuerySearch(query) {
+  query = query.replace("?", "");
+  let params = new Array();
+  let aqueryArr = query.split("&");
+  aqueryArr.forEach((el) => {
+    let temparr = el.split("=");
+    params[temparr[0]] = Number(temparr[1]);
+  });
+  return params;
+}
+
+console.log(window.location.pathname);
+
+// simple router
+if (window.location.pathname == "/") {
+  if (window.location.search == "") {
+    getThreads(1, 4);
+  } else {
+    let strip = stripQuerySearch(window.location.search);
+    getThreads(strip["page"], strip["limit"]);
+  }
+}
+
+// create output thread
+
+// create output posts under thread
