@@ -5,9 +5,9 @@ try {
 
   // event create a thread
   threadSubmitter.addEventListener("click", (e) => {
+    console.log("11;");
     const threadFormData = new FormData(threadForm, threadSubmitter);
-
-    // sendThread(threadFormData);
+    sendThread(threadFormData);
   });
 } catch (error) {
   console.log(error);
@@ -30,13 +30,14 @@ function sendThread(formData) {
 try {
   // posts
   const postForm = document.getElementById("postform");
-  const postSubmitter = document.querySelector("button[value=submitpost]");
-
+  const postSubmitter = document.querySelector("#submitpost");
+  console.log(postSubmitter);
   // event post
   postSubmitter.addEventListener("click", (e) => {
     // console.log(postForm);
     const postFormData = new FormData(postForm, postSubmitter);
     // console.log(postFormData);
+    console.log("posts;");
     for (const [key, value] of postFormData) {
       console.log(key);
     }
@@ -68,14 +69,23 @@ function getThreads(page, limit = 3) {
     method: "GET",
   }).then((resp) => {
     const data = resp.json();
-    let dataArr = new Array();
     data.then((el) => {
       outputThread(el);
     });
   });
 }
 // function for get posts
-function getPosts() {}
+function getPostsInThread(threadId) {
+  // console.log(threadId);
+  fetch("/api/posts?thread_id=" + threadId, {
+    method: "GET",
+  }).then((resp) => {
+    const data = resp.json();
+    data.then((el) => {
+      console.log(el);
+    });
+  });
+}
 
 // function strip query search
 function stripQuerySearch(query) {
@@ -141,8 +151,12 @@ function outputThread(data) {
     `;
     // reqeust for get posts this thread
     // thread id  = el.id
+    let posts = getPostsInThread(el.id);
+    console.log(posts);
   });
   // console.log(htmlthread);
   threadbody.innerHTML = htmlthread;
 }
 // create output posts under thread
+
+// create a async methods all
