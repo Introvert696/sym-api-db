@@ -25,11 +25,13 @@ class DBController extends AbstractController
     }
     public function query(): array
     {
+        // dd($this->sql);
         $this->connect();
         $stmt = $this->dbh->prepare($this->sql);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->sql = "";
+        // dd($data);
         return $data;
     }
     public function all(string $nameTable): static
@@ -60,7 +62,7 @@ class DBController extends AbstractController
         }
         $this->sql = rtrim($this->sql, ',');
         $this->sql .= ")";
-        //  dd($this->sql);
+
         try {
             $response = $this->query();
             $responseData["status"] = 200;
@@ -83,7 +85,12 @@ class DBController extends AbstractController
     }
     public function where(string $column, string $type, string $value): static
     {
-        $this->sql .= " WHERE " . $column . " " . $type . " " . $value;
+        $this->sql .= " WHERE ( " . $column . " " . $type . " \"" . $value . "\") ";
+        return $this;
+    }
+    public function andWhere(string $column, string $type, string $value): static
+    {
+        $this->sql .= " AND ( " . $column . " " . $type . " \"" . $value . "\") ";
         return $this;
     }
     public function orderByNew(string $orderColumn, bool $desc): static

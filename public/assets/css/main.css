@@ -1,40 +1,55 @@
-a {
-    text-decoration: none;
-    color: black;
+body {
+  background-color: #708090;
 }
-.flex{
-    display: flex;
+.form-bg {
+  background-color: #800000;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.flex {
+  display: flex;
 }
 .example-wrapper {
-    margin: 1em auto;
-    max-width: 800px;
-    width: 95%;
-    font: 18px / 1.5 sans-serif;
+  margin: 1em auto;
+  max-width: 800px;
+  width: 95%;
+  font: 18px / 1.5 sans-serif;
 }
 .example-wrapper code {
-    background: #F5F5F5;
-    padding: 2px 6px;
+  background: #f5f5f5;
+  padding: 2px 6px;
 }
 .thread-container {
-    width: 80%;
-    margin: auto;
-    border: 1px solid rgb(167, 115, 115);
-    box-sizing: border-box;
-    padding-left: 10%;
-    margin-top: 2%;
+  width: 80%;
+  margin: auto;
+  border: 1px solid rgb(167, 115, 115);
+  box-sizing: border-box;
+  padding-left: 10%;
+  margin-top: 2%;
 }
 .post-controller {
-    width: 60%;
-    margin: auto;
-    border: 1px solid red;
-    margin-top: 2%;
-    box-sizing: border-box;
-    padding-left: 5%;
+  width: 60%;
+  margin: auto;
+  border: 1px solid red;
+  margin-top: 2%;
+  box-sizing: border-box;
+  padding-left: 5%;
 }
 .create-thread-form {
-    width: 25%;
-    margin: auto;
-    height: 300px;
-    border: 1px solid red;
-
+  width: 25%;
+  margin: auto;
+  height: 300px;
+  border: 1px solid red;
+}
+.logo-one {
+  font-weight: 800;
+  font-size: 24px;
+  background-color: #ffa500;
+}
+.logo-two {
+  background-color: #708090;
+  color: #e2725b;
+  font-weight: 500;
 }

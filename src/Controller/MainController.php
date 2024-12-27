@@ -55,4 +55,27 @@ class MainController extends AbstractController
             'posts' => $posts,
         ]);
     }
+
+
+    #[Route('/admin', name: 'admin.dashboard')]
+    public function dashboard(): Response
+    {
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
+    #[Route('/admin/login', name: 'admin.login', methods: ['GET', 'POST'])]
+    public function login(Request $request): Response
+    {
+        if ($request->isMethod('POST')) {
+            dd($request);
+        }
+
+        return $this->render('admin/login.html.twig');
+    }
+    #[Route('/admin/logout', name: 'admin.logout')]
+    public function logout(): Response
+    {
+        return $this->redirectToRoute('/admin');
+    }
 }
